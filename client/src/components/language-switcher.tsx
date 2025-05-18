@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { useLanguage } from '@/hooks/use-language';
 import { Language } from '@/lib/translations';
 
 interface LanguageSwitcherProps {
@@ -8,12 +7,27 @@ interface LanguageSwitcherProps {
 }
 
 export function LanguageSwitcher({ className = '' }: LanguageSwitcherProps) {
-  const { language, setLanguage } = useLanguage();
+  // Simplest way to determine current language is by URL path
+  const isUkrainianPage = window.location.pathname.includes('/uk');
+  const language: Language = isUkrainianPage ? 'uk' : 'en';
+
+  // Direct navigation to different language versions
+  const switchToEnglish = (e: React.MouseEvent) => {
+    e.preventDefault();
+    localStorage.removeItem('selectedLanguage'); // Clear any stored preference
+    window.location.href = '/';
+  };
+
+  const switchToUkrainian = (e: React.MouseEvent) => {
+    e.preventDefault();
+    localStorage.setItem('selectedLanguage', 'uk');
+    window.location.href = '/uk';
+  };
 
   return (
     <div className={`flex items-center space-x-2 ${className}`}>
       <Button
-        onClick={() => setLanguage('en')}
+        onClick={switchToEnglish}
         variant={language === 'en' ? 'default' : 'outline'}
         size="sm"
         className={`w-8 h-6 p-0 text-xs font-bold ${
@@ -26,7 +40,7 @@ export function LanguageSwitcher({ className = '' }: LanguageSwitcherProps) {
         EN
       </Button>
       <Button
-        onClick={() => setLanguage('uk')}
+        onClick={switchToUkrainian}
         variant={language === 'uk' ? 'default' : 'outline'}
         size="sm"
         className={`w-8 h-6 p-0 text-xs font-bold ${

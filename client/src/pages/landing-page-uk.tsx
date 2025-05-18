@@ -6,19 +6,22 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { ServiceCard } from '@/components/service-card';
 import { ContactForm } from '@/components/contact-form';
-import { useLanguage } from '@/hooks/use-language';
+import { Language } from '@/lib/translations';
 import { getText } from '@/lib/translations';
 import { cybersecurityImages, digitalIntelligenceImages, dataAnalysisImages } from '@/lib/assets';
 import cyberEncryptionImage from '@/assets/cyber-encryption.jpg';
 import { Link, ExternalLink, FileText, Fingerprint, ClipboardCheck, BadgeCheck, UserSearch } from 'lucide-react';
 
-export default function LandingPage() {
-  const { language } = useLanguage();
+// This is a static Ukrainian version of the landing page
+export default function LandingPageUk() {
+  const language: Language = 'uk';
   
-  // Update document title based on language
+  // Update document title
   useEffect(() => {
-    document.title = `NullSig | ${language === 'en' ? 'Hidden Intelligence' : 'Прихована Розвідка'}`;
-  }, [language]);
+    document.title = `NullSig | Прихована Розвідка`;
+    document.documentElement.lang = 'uk';
+    localStorage.setItem('selectedLanguage', 'uk');
+  }, []);
 
   // Smooth scrolling function for button clicks
   const scrollToSection = (id: string) => {
